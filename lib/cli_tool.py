@@ -1,9 +1,15 @@
 import argparse
+import os
+import sys
 
-try:
-    from .models import Task, User
-except ImportError:  # pragma: no cover - allows running the module directly
-    from lib.models import Task, User
+if __package__ in {None, ""}:
+    sys.path.insert(0, os.path.dirname(__file__))
+    from models import Task, User
+else:
+    try:
+        from .models import Task, User
+    except ImportError:  # pragma: no cover - fallback for alternate import contexts
+        from lib.models import Task, User
 
 
 # Global dictionary to store users and their tasks
