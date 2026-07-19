@@ -2,17 +2,16 @@ import argparse
 import os
 import sys
 
-if __package__ in {None, ""}:
-    sys.path.insert(0, os.path.dirname(__file__))
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
+
+try:
+    from lib.models import Task, User
+except ImportError:  # pragma: no cover
     from models import Task, User
-else:
-    try:
-        from .models import Task, User
-    except ImportError:  # pragma: no cover - fallback for alternate import contexts
-        from lib.models import Task, User
 
 
-# Global dictionary to store users and their tasks
 users = {}
 
 
