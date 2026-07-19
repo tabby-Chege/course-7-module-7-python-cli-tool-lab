@@ -2,14 +2,12 @@ import argparse
 import os
 import sys
 
+# Make imports work from the repository root and from subprocess-based execution.
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-try:
-    from lib.models import Task, User
-except ModuleNotFoundError:
-    from models import Task, User
+from lib.models import Task, User
 
 users = {}
 
