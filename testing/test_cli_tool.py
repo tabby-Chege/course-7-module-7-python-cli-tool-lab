@@ -13,6 +13,20 @@ def test_add_task():
     assert "📌 Task 'Submit report' added to Alice." in result.stdout
 
 
+def test_add_task_from_temp_working_directory(tmp_path):
+    env = os.environ.copy()
+    env["PYTHONPATH"] = os.getcwd() + os.pathsep + env.get("PYTHONPATH", "")
+    result = subprocess.run(
+        [sys.executable, "-m", "lib.cli_tool", "add-task", "Alice", "Submit report"],
+        cwd=tmp_path,
+        capture_output=True,
+        text=True,
+        env=env,
+    )
+    assert result.returncode == 0
+    assert "📌 Task 'Submit report' added to Alice." in result.stdout
+
+
 def test_complete_task_with_script(tmp_path):
     """Runs everything in one subprocess so state is shared."""
     script_path = tmp_path / "script.py"
