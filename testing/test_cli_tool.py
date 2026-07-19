@@ -1,13 +1,17 @@
-import subprocess
 import os
+import subprocess
+import sys
+
 
 def run_cli_command(command):
     """Helper to run CLI command and capture output"""
     return subprocess.run(command, capture_output=True, text=True)
 
+
 def test_add_task():
-    result = run_cli_command(["python", "-m", "lib.cli_tool", "add-task", "Alice", "Submit report"])
+    result = run_cli_command([sys.executable, "-m", "lib.cli_tool", "add-task", "Alice", "Submit report"])
     assert "📌 Task 'Submit report' added to Alice." in result.stdout
+
 
 def test_complete_task_with_script(tmp_path):
     """Runs everything in one subprocess so state is shared."""
@@ -27,5 +31,5 @@ task.complete()
 """
     script_path.write_text(script_content)
 
-    result = subprocess.run(["python", str(script_path)], capture_output=True, text=True)
+    result = subprocess.run([sys.executable, str(script_path)], capture_output=True, text=True)
     assert "✅ Task 'Finish lab' completed." in result.stdout
