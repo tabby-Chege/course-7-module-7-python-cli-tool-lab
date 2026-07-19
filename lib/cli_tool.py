@@ -2,15 +2,19 @@ import argparse
 import os
 import sys
 
+# Ensure the repository root is on sys.path for subprocess-based execution.
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-try:
-    from lib.models import Task, User
-except ImportError:  # pragma: no cover
+# Support both package-style and direct-script execution.
+if os.path.exists(os.path.join(ROOT, 'lib', '__init__.py')):
+    try:
+        from lib.models import Task, User
+    except ModuleNotFoundError:
+        from models import Task, User
+else:
     from models import Task, User
-
 
 users = {}
 
